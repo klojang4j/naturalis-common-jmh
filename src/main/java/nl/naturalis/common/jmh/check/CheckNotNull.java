@@ -35,7 +35,7 @@ public class CheckNotNull {
   public List<Object> tenPercentNullsInThisList = new ArrayList<>(sampleSize);
 
   @Benchmark
-  public void checkNotNull_0pct_null(Blackhole bh) {
+  public void t00_checkNotNull___all_pass(Blackhole bh) {
     for (int i = 0; i < sampleSize; ++i) {
       try {
         Object obj = Check.notNull(zeroNullsInThisList.get(i), "foo").ok();
@@ -47,7 +47,7 @@ public class CheckNotNull {
   }
 
   @Benchmark
-  public void manualNullCheck_0pct_null(Blackhole bh) {
+  public void t01_manualNullCheck___all_pass(Blackhole bh) {
     for (int i = 0; i < sampleSize; ++i) {
       try {
         Object obj = zeroNullsInThisList.get(i);
@@ -62,7 +62,7 @@ public class CheckNotNull {
   }
 
   @Benchmark
-  public void checkNotNull_1pct_null(Blackhole bh) {
+  public void t02_checkNotNull___1pct_fail(Blackhole bh) {
     for (int i = 0; i < sampleSize; ++i) {
       try {
         Object obj = Check.notNull(onePercentNullsInThisList.get(i), "foo").ok();
@@ -74,7 +74,7 @@ public class CheckNotNull {
   }
 
   @Benchmark
-  public void manualNullCheck_1pct_null(Blackhole bh) {
+  public void t03_manualNullCheck___1pct_fail(Blackhole bh) {
     for (int i = 0; i < sampleSize; ++i) {
       try {
         Object obj = onePercentNullsInThisList.get(i);
@@ -89,7 +89,7 @@ public class CheckNotNull {
   }
 
   @Benchmark
-  public void checkNotNull_10pct_null(Blackhole bh) {
+  public void t04_checkNotNull___10pct_fail(Blackhole bh) {
     for (int i = 0; i < sampleSize; ++i) {
       try {
         Object obj = Check.notNull(tenPercentNullsInThisList.get(i), "foo").ok();
@@ -101,7 +101,7 @@ public class CheckNotNull {
   }
 
   @Benchmark
-  public void manualNullCheck_10pct_null(Blackhole bh) {
+  public void t05_manualNullCheck___10pct_null(Blackhole bh) {
     for (int i = 0; i < sampleSize; ++i) {
       try {
         Object obj = tenPercentNullsInThisList.get(i);
