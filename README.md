@@ -5,8 +5,8 @@ Performance tests some critical parts of the naturalis-common utilities library.
 ## How to run
 
 - Clone this repository
-- Run ```mvn clean package```
-- Run ```java -jar target/benchmarks.jar <name_of_test>```
+- Run: mvn clean package
+- Run: java -jar target/benchmarks.jar <name_of_test>
 
 For example:
 
@@ -20,9 +20,9 @@ java -jar target/benchmarks.jar CheckNotNull
 
 #### CheckNotNull
 
-Compares performance of ```Check.notNull(arg)``` and ```Check.that(arg).is(notNull())``` to manually coded null check.
-In the 1st pass all tested objects are in fact non-null. In the 2nd and 3rd pass 1 resp. 10 percent are null, thus
-causing an IllegalArgumentException to be thrown.
+Compares performance of Check.notNull(arg) and Check.that(arg).is(notNull()) to manually coded null check. In the 1st
+pass all tested objects are in fact non-null. In the 2nd and 3rd pass 1 resp. 10 percent are null, thus causing an
+IllegalArgumentException to be thrown.
 
 ```
 Benchmark                                        (sampleSize)  Mode  Cnt   Score    Error  Units
@@ -39,5 +39,5 @@ CheckNotNull.t09_90pct_pass__manual                    100000  avgt   16  14.584
 
 #### CheckLt
 
-Compares performance of ```Check.lt()``` to manually coded less-than check (for ints)
+Compares performance of Check.that(arg).is(lt(), 100) to manually coded less-than check.
 
