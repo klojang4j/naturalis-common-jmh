@@ -1,8 +1,6 @@
-# naturalis-common-jmh
-
 Performance tests some critical parts of the naturalis-common utilities library.
 
-## How to run
+### How to run
 
 - Clone this repository
 - Run: mvn clean package
@@ -10,15 +8,11 @@ Performance tests some critical parts of the naturalis-common utilities library.
 
 For example:
 
-```bash
 java -jar target/benchmarks.jar CheckNotNull
-```
-
-## Tests
 
 ### nl.naturalis.common.check
 
-#### CheckNotNull
+##### CheckNotNull
 
 Compares performance of Check.notNull(arg) and Check.that(arg).is(notNull()) to manually coded null check. In the 1st
 pass all tested objects are in fact non-null. In the 2nd and 3rd pass 1 resp. 10 percent are null, thus causing an
@@ -37,7 +31,7 @@ CheckNotNull.t08_90pct_pass__CheckThatIsNotNull        100000  avgt   16  16.229
 CheckNotNull.t09_90pct_pass__manual                    100000  avgt   16  14.584 ±  0.431  ms/op
 ```
 
-#### CheckLt
+##### CheckLt
 
 Compares performance of Check.that(arg).is(lt(), 100) to manually coded less-than check.
 
