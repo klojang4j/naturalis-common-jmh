@@ -10,13 +10,11 @@ For example:
 
 java -jar target/benchmarks.jar CheckNotNull
 
-### nl.naturalis.common.check
+### CheckNotNull
 
-##### CheckNotNull
-
-Compares performance of Check.notNull(arg) and Check.that(arg).is(notNull()) to manually coded null check. In the 1st
-pass all tested objects are in fact non-null. In the 2nd and 3rd pass 1 resp. 10 percent are null, thus causing an
-IllegalArgumentException to be thrown.
+Compares performance (average time) of Check.notNull(arg) and Check.that(arg).is(notNull()) to manually coded null
+check. In the 1st pass all tested objects are in fact non-null. In the 2nd and 3rd pass 1 resp. 10 percent are null,
+thus causing an IllegalArgumentException to be thrown.
 
 ```
 Benchmark                                        (sampleSize)  Mode  Cnt   Score    Error  Units
@@ -31,7 +29,7 @@ CheckNotNull.t08_90pct_pass__CheckThatIsNotNull        100000  avgt   16  16.229
 CheckNotNull.t09_90pct_pass__manual                    100000  avgt   16  14.584 ±  0.431  ms/op
 ```
 
-##### CheckLt
+### CheckLt
 
 Compares performance of Check.that(arg).is(lt(), 100) to manually coded less-than check.
 
