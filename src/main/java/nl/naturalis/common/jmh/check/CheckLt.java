@@ -31,7 +31,7 @@ public class CheckLt {
   public void t00_check___all_pass(Blackhole bh) {
     for (int i = 0; i < sampleSize; ++i) {
       try {
-        int x = Check.that(noFailures[i], "foo").is(lt(), 100).intValue();
+        int x = Check.that(noFailures[i], "foo").is(lt(), 100).ok();
         bh.consume(x);
       } catch (IllegalArgumentException e) {
         bh.consume(e.getMessage());
@@ -59,7 +59,7 @@ public class CheckLt {
   public void t02_check___1pct_failures(Blackhole bh) {
     for (int i = 0; i < sampleSize; ++i) {
       try {
-        int x = Check.that(onePercentFailures[i], "foo").is(lt(), 100).intValue();
+        int x = Check.that(onePercentFailures[i], "foo").is(lt(), 100).ok();
         bh.consume(x);
       } catch (IllegalArgumentException e) {
         bh.consume(e.getMessage());
@@ -87,7 +87,7 @@ public class CheckLt {
   public void t04_check___10pct_failures(Blackhole bh) {
     for (int i = 0; i < sampleSize; ++i) {
       try {
-        int x = Check.that(tenPercentFailures[i], "foo").is(lt(), 100).intValue();
+        int x = Check.that(tenPercentFailures[i], "foo").is(lt(), 100).ok();
         bh.consume(x);
       } catch (IllegalArgumentException e) {
         bh.consume(e.getMessage());
