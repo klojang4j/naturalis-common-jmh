@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Measurement(iterations = 3)
 public class ReaderComparison {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Throwable {
     List<Person> persons = createTestData();
     BeanReader<Person> br = new BeanReader<>(Person.class);
     for (Person p : persons) {
@@ -75,7 +75,7 @@ public class ReaderComparison {
   }
 
   @Benchmark
-  public void beanReader(Blackhole bh) {
+  public void beanReader(Blackhole bh) throws Throwable {
     for (Person p : persons) {
       bh.consume(br.read(p, "id"));
       bh.consume(br.read(p, "name"));
@@ -84,7 +84,7 @@ public class ReaderComparison {
   }
 
   @Benchmark
-  public void anyBeanReader(Blackhole bh) {
+  public void anyBeanReader(Blackhole bh) throws Throwable {
     for (Person p : persons) {
       bh.consume(abr.read(p, "id"));
       bh.consume(abr.read(p, "name"));
