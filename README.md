@@ -1,4 +1,4 @@
-Microbenchmarks for some critical parts of the naturalis-common utilities library.
+Microbenchmarks using JMH for some critical parts of the naturalis-common.
 
 ### How to run
 
@@ -8,15 +8,27 @@ Microbenchmarks for some critical parts of the naturalis-common utilities librar
 
 For example:
 
-java -jar target/benchmarks.jar CheckNotNull
+java -jar target/benchmarks.jar NotNull_All_Pass
 
 ### Tests
 
 **nl.naturalis.common.check**
 
-- **CheckNotNull** Compares the performance of Check.notNull(arg) and Check.that(arg).is(notNull()) to a manually coded
-  null check. In the 1st round all 100000 test objects pass the test (they are non-null). In the 2nd and 3rd round 1
-  resp. 10 percent of the test objects are null, thus causing an IllegalArgumentException to be thrown.
-- **CheckLt** Compares performance of Check.that(arg).is(lt(), 100) to manually coded less-than check.
+- [NotNull_All_Pass](/src/main/java/nl/naturalis/common/jmh/check/NotNull_All_Pass.java)
+  compares the performance of the check framework's null check with a hand-coded
+  null check. The test iterations are carried out with a value that is never
+  null.
+- [NotNull_1_Pct_Fail](/src/main/java/nl/naturalis/common/jmh/check/NotNull_1_Pct_Fail.java)
+  compares the performance of the check framework's null check with a hand-coded
+  null check. The test iterations are carried out with a value that is null in
+  one percent of the cases.
+- [NotNull_50_Pct_Fail](/src/main/java/nl/naturalis/common/jmh/check/NotNull_50_Pct_Fail.java)
+  compares the performance of the check framework's null check with a hand-coded
+  null check. The test iterations are carried out with a value that is null in
+  50 percent of the cases.
 
+**nl.naturalis.common.invoke**
 
+- [ReaderComparison](/src/main/java/nl/naturalis/common/jmh/invoke/ReaderComparison.java)
+  compares the performance of BeanReader and AnyBeanReader with non-dynamical
+  reads on a simple Person object with three properties.
