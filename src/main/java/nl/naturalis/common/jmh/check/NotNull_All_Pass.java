@@ -6,14 +6,7 @@ import org.openjdk.jmh.annotations.*;
 ;import org.openjdk.jmh.infra.Blackhole;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.random.RandomGenerator;
 
 import static nl.naturalis.common.check.CommonChecks.notNull;
 
@@ -28,56 +21,45 @@ import static nl.naturalis.common.check.CommonChecks.notNull;
 @Fork(value = 2, jvmArgs = {"-Xms1G", "-Xmx1G"})
 @Warmup(iterations = 3, time = 3)
 @Measurement(iterations = 3, time = 3)
-public class NullCheck_Without_Nulls {
+public class NotNull_All_Pass {
 
   public int samples = 1024;
 
-  public String[] strings;
+  public String testVal;
 
   @Benchmark
   public void manual(Blackhole bh) {
-    for (int i = 0; i < samples; ++i) {
-      if (strings[i] == null) {
-        throw new IllegalArgumentException("arg must not be null");
-      }
-      bh.consume(strings[i]);
+    if (testVal == null) {
+      throw new IllegalArgumentException("arg must not be null");
     }
+    bh.consume(testVal);
   }
 
   @Benchmark
   public void staticFactoryMethod(Blackhole bh) {
-    for (int i = 0; i < samples; ++i) {
-      bh.consume(Check.notNull(strings[i], "arg").ok());
-    }
+    bh.consume(Check.notNull(testVal, "arg").ok());
   }
 
   @Benchmark
   public void notNullPlain(Blackhole bh) {
-    for (int i = 0; i < samples; ++i) {
-      bh.consume(Check.that(strings[i], "arg").is(notNull()).ok());
-    }
+    bh.consume(Check.that(testVal, "arg").is(notNull()).ok());
   }
 
   @Benchmark
   public void notNullCustomMsg(Blackhole bh) {
-    for (int i = 0; i < samples; ++i) {
-      bh.consume(Check.that(strings[i]).is(notNull(), "Not allowed: ${arg}").ok());
-    }
+    bh.consume(Check.that(testVal).is(notNull(), "Not allowed: ${arg}").ok());
   }
 
   @Benchmark
   public void notNullCustomExc(Blackhole bh) throws IOException {
-    for (int i = 0; i < samples; ++i) {
-      bh.consume(Check.that(strings[i]).is(notNull(), () -> new IOException()).ok());
-    }
+    bh.consume(Check.that(testVal)
+        .is(notNull(), () -> new IOException("arg must not be null"))
+        .ok());
   }
 
-  @Setup(Level.Iteration)
+  @Setup(Level.Invocation)
   public void setup() {
-    strings = new String[samples];
-    for (int i = 0; i < samples; ++i) {
-      strings[i] = RandomStringUtils.randomAlphabetic(0, 10);
-    }
+    testVal = RandomStringUtils.randomAlphabetic(10, 15);
   }
 
 }

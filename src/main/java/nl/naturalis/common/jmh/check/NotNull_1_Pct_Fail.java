@@ -24,7 +24,7 @@ import static nl.naturalis.common.check.CommonChecks.notNull;
 @Fork(value = 2, jvmArgs = {"-Xms1G", "-Xmx1G"})
 @Warmup(iterations = 3, time = 3)
 @Measurement(iterations = 3, time = 3)
-public class NullCheck_1_Pct_Nulls {
+public class NotNull_1_Pct_Fail {
 
   public String testVal;
 
@@ -70,7 +70,9 @@ public class NullCheck_1_Pct_Nulls {
   @Benchmark
   public void notNullCustomExc(Blackhole bh) {
     try {
-      bh.consume(Check.that(testVal).is(notNull(), () -> new IOException()).ok());
+      bh.consume(Check.that(testVal)
+          .is(notNull(), () -> new IOException("arg must not be null"))
+          .ok());
     } catch (IOException e) {
       bh.consume(e);
     }
