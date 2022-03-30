@@ -36,7 +36,6 @@ public class NotNull_1_Pct_Fail {
       }
       bh.consume(testVal);
     } catch (IllegalArgumentException e) {
-      bh.consume(e);
     }
   }
 
@@ -45,7 +44,6 @@ public class NotNull_1_Pct_Fail {
     try {
       bh.consume(Check.notNull(testVal, "arg").ok());
     } catch (IllegalArgumentException e) {
-      bh.consume(e);
     }
   }
 
@@ -54,7 +52,6 @@ public class NotNull_1_Pct_Fail {
     try {
       bh.consume(Check.that(testVal, "arg").is(notNull()).ok());
     } catch (IllegalArgumentException e) {
-      bh.consume(e);
     }
   }
 
@@ -63,7 +60,6 @@ public class NotNull_1_Pct_Fail {
     try {
       bh.consume(Check.that(testVal).is(notNull(), "Not allowed: ${arg}").ok());
     } catch (IllegalArgumentException e) {
-      bh.consume(e);
     }
   }
 
@@ -74,7 +70,6 @@ public class NotNull_1_Pct_Fail {
           .is(notNull(), () -> new IOException("arg must not be null"))
           .ok());
     } catch (IOException e) {
-      bh.consume(e);
     }
   }
 
