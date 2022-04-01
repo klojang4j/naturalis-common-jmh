@@ -11,13 +11,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static nl.naturalis.common.check.CommonChecks.notNull;
 
-;
-
-/**
- * Compares {@link Check#notNull(Object)} to a manual null-check. Since this is probably the most
- * common precondition check, the {@code notNull} check ought to be just as fast as a manual check
- * ({@code if(arg == null) throw ...}).
- */
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Benchmark)
@@ -26,7 +19,7 @@ import static nl.naturalis.common.check.CommonChecks.notNull;
 @Measurement(iterations = 3, time = 3)
 public class NotNull_50_Pct_Fail {
 
-  public String testVal;
+  public static String testVal;
 
   @Benchmark
   public void manual(Blackhole bh) {

@@ -15,17 +15,21 @@ java -jar target/benchmarks.jar NotNull_All_Pass
 **nl.naturalis.common.check**
 
 - [NotNull_All_Pass](/src/main/java/nl/naturalis/common/jmh/check/NotNull_All_Pass.java)
-  compares the performance of the check framework's null check with a hand-coded
-  null check. The test iterations are carried out with a value that is never
-  null.
+  compares the performance of the check framework's notNull() check with a
+  hand-coded null check. The test iterations are carried out with a value that
+  is always non-null.
 - [NotNull_1_Pct_Fail](/src/main/java/nl/naturalis/common/jmh/check/NotNull_1_Pct_Fail.java)
-  compares the performance of the check framework's null check with a hand-coded
-  null check. The test iterations are carried out with a value that is null in
-  one percent of the cases.
+  compares the performance of the check framework's notNull() check with a
+  hand-coded null check. The test iterations are carried out with a value that
+  is null in one percent of the cases.
 - [NotNull_50_Pct_Fail](/src/main/java/nl/naturalis/common/jmh/check/NotNull_50_Pct_Fail.java)
-  compares the performance of the check framework's null check with a hand-coded
-  null check. The test iterations are carried out with a value that is null in
-  50 percent of the cases.
+  compares the performance of the check framework's notNull() check with a
+  hand-coded null check. The test iterations are carried out with a value that
+  is null in 50 percent of the cases.
+- [InstanceOf_All_Pass](/src/main/java/nl/naturalis/common/jmh/check/InstanceOf_All_Pass.java)
+  compares the performance of the check framework's instanceOf() check with a
+  hand-coded type check. The test iterations are carried out with a value that
+  always has the expected type.
 
 **nl.naturalis.common.invoke**
 
@@ -73,4 +77,12 @@ NotNull_50_Pct_Fail.notNullPlain         avgt    6  520.175 ± 31.411  ns/op
 NotNull_50_Pct_Fail.staticFactoryMethod  avgt    6  356.488 ± 13.843  ns/op
 ```
 
+**InstanceOf_All_Pass**
+
+```
+Benchmark                             Mode  Cnt   Score   Error  Units
+InstanceOf_All_Pass.instanceOfPlain   avgt    6  31.441 ± 0.945  ns/op
+InstanceOf_All_Pass.notNullCustomExc  avgt    6  31.459 ± 0.756  ns/op
+InstanceOf_All_Pass.notNullCustomMsg  avgt    6  31.038 ± 0.968  ns/op
+```
 
