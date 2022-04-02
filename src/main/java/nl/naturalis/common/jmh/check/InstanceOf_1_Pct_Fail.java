@@ -5,6 +5,7 @@ import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -20,38 +21,58 @@ import static nl.naturalis.common.check.CommonChecks.instanceOf;
 @Fork(value = 2, jvmArgs = {"-Xms1G", "-Xmx1G", "-XX:-StackTraceInThrowable"})
 @Warmup(iterations = 4, time = 3)
 @Measurement(iterations = 3, time = 3500, timeUnit = TimeUnit.MILLISECONDS)
-public class InstanceOf_All_Pass {
+public class InstanceOf_1_Pct_Fail {
 
   public Object testVal;
   public Class testClass;
 
   @Benchmark
   public void handCoded(Blackhole bh) {
-    if (testClass.isInstance(testVal)) {
-      String fmt = "value must be instance of collection (was %s)";
-      String msg = String.format(fmt, testVal.getClass().getName());
-      throw new IllegalArgumentException(msg);
+    try {
+      if (testClass.isInstance(testVal)) {
+        throw new IllegalArgumentException(testVal.getClass() + " must be a " + testClass);
+      }
+      bh.consume(testVal);
+    } catch (IllegalArgumentException e) {
     }
-    bh.consume(testVal);
   }
 
   @Benchmark
   public void prefabMessage(Blackhole bh) {
-    bh.consume(Check.that(testVal, "value").is(instanceOf(), testClass).ok());
+    try {
+      bh.consume(Check.that(testVal, "value").is(instanceOf(), testClass).ok());
+    } catch (IllegalArgumentException e) {
+    }
   }
 
   @Benchmark
-  public void customMessage(Blackhole bh) {
-    bh.consume(Check.that(testVal).is(instanceOf(), testClass, "Illegal type: ${type}").ok());
+  public void customMessageWithMsgArgs(Blackhole bh) {
+    try {
+      bh.consume(Check.that(testVal).is(instanceOf(), testClass, "${type} must be ${obj}").ok());
+    } catch (IllegalArgumentException e) {
+    }
   }
 
   @Benchmark
-  public void customException(Blackhole bh) throws IOException {
-    bh.consume(Check.that(testVal)
-        .is(instanceOf(),
-            testClass,
-            () -> new IOException("Illegal type: " + testVal.getClass().getName()))
-        .ok());
+  public void customMessageNoMsgArgs(Blackhole bh) {
+    try {
+      bh.consume(Check.that(testVal)
+          .is(instanceOf(), testClass, testVal.getClass() + " must be a " + testClass)
+          .ok());
+    } catch (IllegalArgumentException e) {
+    }
+  }
+
+  @Benchmark
+  public void customException(Blackhole bh) {
+    try {
+      bh.consume(Check.that(testVal)
+          .is(instanceOf(),
+              testClass,
+              () -> new IOException(testVal.getClass() + " must be a " + testClass))
+          .ok());
+    } catch (IOException e) {
+    }
   }
 
   public ThreadLocal<AtomicInteger> counter0 = new ThreadLocal<>() {
@@ -79,11 +100,11 @@ public class InstanceOf_All_Pass {
       default -> Set.of(1, 2);
     };
     int i1 = counter1.get().getAndIncrement();
-    testClass = switch (i1 % 2) {
-      case 0 -> i0 % 3 == 0 ? List.class : Set.class;
-      case 1 -> i0 % 3 == 1 ? Serializable.class : Iterable.class;
-      default -> Collection.class;
-    };
+    if (i1 % 100 == 0) {
+      testClass = OutputStream.class;
+    } else {
+      testClass = Collection.class;
+    }
   }
 
 }

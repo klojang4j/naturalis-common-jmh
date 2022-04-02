@@ -13,15 +13,15 @@ import static nl.naturalis.common.check.CommonChecks.notNull;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Benchmark)
-@Fork(value = 2, jvmArgs = {"-Xms1G", "-Xmx1G"})
-@Warmup(iterations = 3, time = 3)
-@Measurement(iterations = 3, time = 3)
+@Fork(value = 2, jvmArgs = {"-Xms1G", "-Xmx1G", "-XX:-StackTraceInThrowable"})
+@Warmup(iterations = 4, time = 3)
+@Measurement(iterations = 3, time = 3500, timeUnit = TimeUnit.MILLISECONDS)
 public class NotNull_All_Pass {
 
   public String testVal;
 
   @Benchmark
-  public void manual(Blackhole bh) {
+  public void handCoded(Blackhole bh) {
     if (testVal == null) {
       throw new IllegalArgumentException("arg must not be null");
     }
@@ -34,17 +34,17 @@ public class NotNull_All_Pass {
   }
 
   @Benchmark
-  public void notNullPlain(Blackhole bh) {
+  public void prefabMessage(Blackhole bh) {
     bh.consume(Check.that(testVal, "arg").is(notNull()).ok());
   }
 
   @Benchmark
-  public void notNullCustomMsg(Blackhole bh) {
+  public void customMessage(Blackhole bh) {
     bh.consume(Check.that(testVal).is(notNull(), "Not allowed: ${arg}").ok());
   }
 
   @Benchmark
-  public void notNullCustomExc(Blackhole bh) throws IOException {
+  public void customException(Blackhole bh) throws IOException {
     bh.consume(Check.that(testVal)
         .is(notNull(), () -> new IOException("arg must not be null"))
         .ok());
