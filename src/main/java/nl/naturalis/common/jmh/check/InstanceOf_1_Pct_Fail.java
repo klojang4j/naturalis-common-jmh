@@ -57,7 +57,7 @@ public class InstanceOf_1_Pct_Fail {
   public void customMessageNoMsgArgs(Blackhole bh) {
     try {
       bh.consume(Check.that(testVal)
-          .is(instanceOf(), testClass, testVal.getClass() + " must be a " + testClass)
+          .is(instanceOf(), testClass, testVal.getClass() + " must be a " + testClass, null)
           .ok());
     } catch (IllegalArgumentException e) {
     }

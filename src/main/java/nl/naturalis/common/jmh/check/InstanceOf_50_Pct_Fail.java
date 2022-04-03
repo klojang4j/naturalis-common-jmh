@@ -25,7 +25,7 @@ public class InstanceOf_50_Pct_Fail {
   public Object testVal;
   public Class testClass;
 
-  @Benchmark
+  //@Benchmark
   public void handCoded(Blackhole bh) {
     try {
       if (testClass.isInstance(testVal)) {
@@ -36,7 +36,7 @@ public class InstanceOf_50_Pct_Fail {
     }
   }
 
-  @Benchmark
+  //@Benchmark
   public void prefabMessage(Blackhole bh) {
     try {
       bh.consume(Check.that(testVal, "value").is(instanceOf(), testClass).ok());
@@ -52,17 +52,17 @@ public class InstanceOf_50_Pct_Fail {
     }
   }
 
-  @Benchmark
+  //@Benchmark
   public void customMessageNoMsgArgs(Blackhole bh) {
     try {
       bh.consume(Check.that(testVal)
-          .is(instanceOf(), testClass, testVal.getClass() + " must be a " + testClass)
+          .is(instanceOf(), testClass, testVal.getClass() + " must be a " + testClass, null)
           .ok());
     } catch (IllegalArgumentException e) {
     }
   }
 
-  @Benchmark
+  //@Benchmark
   public void customException(Blackhole bh) {
     try {
       bh.consume(Check.that(testVal)

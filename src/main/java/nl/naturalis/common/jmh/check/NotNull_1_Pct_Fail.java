@@ -59,7 +59,7 @@ public class NotNull_1_Pct_Fail {
   @Benchmark
   public void customMessageNoMsgArgs(Blackhole bh) {
     try {
-      bh.consume(Check.that(testVal).is(notNull(), "arg must not be null").ok());
+      bh.consume(Check.that(testVal).is(notNull(), "arg must not be null", null).ok());
     } catch (IllegalArgumentException e) {
     }
   }
