@@ -15,7 +15,7 @@ import static nl.naturalis.common.check.CommonChecks.notNull;
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Benchmark)
 @Fork(value = 2, jvmArgs = {"-Xms1G", "-Xmx1G", "-XX:-StackTraceInThrowable"})
-@Warmup(iterations = 4, time = 3)
+@Warmup(iterations = 4, time = 3500, timeUnit = TimeUnit.MILLISECONDS)
 @Measurement(iterations = 3, time = 3500, timeUnit = TimeUnit.MILLISECONDS)
 public class NotNull_50_Pct_Fail {
 
@@ -51,7 +51,7 @@ public class NotNull_50_Pct_Fail {
   @Benchmark
   public void customMessageWithMsgArgs(Blackhole bh) {
     try {
-      bh.consume(Check.that(testVal).is(notNull(), "Not allowed: ${arg}").ok());
+      bh.consume(Check.that(testVal).is(notNull(), "${name} must not be null").ok());
     } catch (IllegalArgumentException e) {
     }
   }

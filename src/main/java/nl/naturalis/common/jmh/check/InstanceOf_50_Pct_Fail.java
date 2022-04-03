@@ -18,14 +18,14 @@ import static nl.naturalis.common.check.CommonChecks.instanceOf;
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Benchmark)
 @Fork(value = 2, jvmArgs = {"-Xms1G", "-Xmx1G", "-XX:-StackTraceInThrowable"})
-@Warmup(iterations = 4, time = 3)
+@Warmup(iterations = 4, time = 3500, timeUnit = TimeUnit.MILLISECONDS)
 @Measurement(iterations = 3, time = 3500, timeUnit = TimeUnit.MILLISECONDS)
 public class InstanceOf_50_Pct_Fail {
 
   public Object testVal;
   public Class testClass;
 
-  //@Benchmark
+  @Benchmark
   public void handCoded(Blackhole bh) {
     try {
       if (testClass.isInstance(testVal)) {
@@ -36,7 +36,7 @@ public class InstanceOf_50_Pct_Fail {
     }
   }
 
-  //@Benchmark
+  @Benchmark
   public void prefabMessage(Blackhole bh) {
     try {
       bh.consume(Check.that(testVal, "value").is(instanceOf(), testClass).ok());
@@ -52,7 +52,7 @@ public class InstanceOf_50_Pct_Fail {
     }
   }
 
-  //@Benchmark
+  @Benchmark
   public void customMessageNoMsgArgs(Blackhole bh) {
     try {
       bh.consume(Check.that(testVal)
@@ -62,7 +62,7 @@ public class InstanceOf_50_Pct_Fail {
     }
   }
 
-  //@Benchmark
+  @Benchmark
   public void customException(Blackhole bh) {
     try {
       bh.consume(Check.that(testVal)
