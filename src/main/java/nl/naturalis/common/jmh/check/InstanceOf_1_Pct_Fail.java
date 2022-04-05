@@ -19,7 +19,7 @@ import static nl.naturalis.common.check.CommonChecks.instanceOf;
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
 @State(Scope.Benchmark)
 @Fork(value = 2, jvmArgs = {"-Xms1G", "-Xmx1G", "-XX:-StackTraceInThrowable"})
-@Warmup(iterations = 4, time = 3)
+@Warmup(iterations = 4, time = 3500, timeUnit = TimeUnit.MILLISECONDS)
 @Measurement(iterations = 3, time = 3500, timeUnit = TimeUnit.MILLISECONDS)
 public class InstanceOf_1_Pct_Fail {
 
