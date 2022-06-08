@@ -21,7 +21,7 @@ java -jar target/benchmarks.jar NotNull_All_Pass
 - [NotNull_1_Pct_Fail](/src/main/java/nl/naturalis/common/jmh/check/NotNull_1_Pct_Fail.java)
   compares the performance of the check framework's notNull() check with a
   hand-coded null check. The test iterations are carried out with a value that
-  is null in one percent of the cases.
+  is null in first percent of the cases.
 - [NotNull_50_Pct_Fail](/src/main/java/nl/naturalis/common/jmh/check/NotNull_50_Pct_Fail.java)
   compares the performance of the check framework's notNull() check with a
   hand-coded null check. The test iterations are carried out with a value that
