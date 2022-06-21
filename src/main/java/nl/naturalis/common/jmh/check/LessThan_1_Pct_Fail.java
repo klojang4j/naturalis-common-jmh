@@ -1,17 +1,15 @@
 package nl.naturalis.common.jmh.check;
 
 import nl.naturalis.common.check.Check;
+import nl.naturalis.common.function.IntRelation;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static nl.naturalis.common.check.CheckUtils.anonymize;
-import static nl.naturalis.common.check.CommonChecks.instanceOf;
 import static nl.naturalis.common.check.CommonChecks.lt;
 
 @BenchmarkMode(Mode.AverageTime)
@@ -27,13 +25,21 @@ public class LessThan_1_Pct_Fail {
 
   public Random rand = new Random();
 
+  public static IntRelation anonymize(IntRelation intRelation) {
+    return (i, j) -> intRelation.exists(i, j);
+  }
+
   //@Benchmark
   public void handCoded(Blackhole bh) {
     try {
       if (subject < object) {
         bh.consume(subject);
       }
-      throw new IllegalArgumentException("arg must be < " + object + " (was " + subject + ")");
+      throw new IllegalArgumentException("arg must be < "
+          + object
+          + " (was "
+          + subject
+          + ")");
     } catch (IllegalArgumentException t) {
     }
   }
@@ -60,7 +66,10 @@ public class LessThan_1_Pct_Fail {
   public void customMessageNoMsgArgs(Blackhole bh) {
     try {
       bh.consume(Check.that(subject)
-          .is(lt(), object, "arg must be < " + object + " (was " + subject + ")", null)
+          .is(lt(),
+              object,
+              "arg must be < " + object + " (was " + subject + ")",
+              null)
           .ok());
     } catch (IllegalArgumentException e) {
     }
@@ -72,7 +81,11 @@ public class LessThan_1_Pct_Fail {
       bh.consume(Check.that(subject)
           .is(lt(),
               object,
-              () -> new IOException("arg must be < " + object + " (was " + subject + ")"))
+              () -> new IOException("arg must be < "
+                  + object
+                  + " (was "
+                  + subject
+                  + ")"))
           .ok());
     } catch (IOException e) {
     }
